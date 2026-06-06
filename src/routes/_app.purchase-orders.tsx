@@ -12,7 +12,8 @@ import { Logo } from "@/components/Logo";
 
 export const Route = createFileRoute("/_app/purchase-orders")({ component: POs });
 
-const lineItems = [
+type LineItem = { desc: string; qty: number; unit: number; tax: number };
+const lineItems: LineItem[] = [
   { desc: "Aluminum bracket A-203", qty: 500, unit: 245.00, tax: 18 },
   { desc: "Steel shaft S-118 (heat-treated)", qty: 200, unit: 312.50, tax: 18 },
 ];
@@ -52,7 +53,7 @@ function POs() {
 
 function DocCard({ kind, docId, status, lineItems, subtotal, tax, total }: {
   kind: string; docId: string; status: string;
-  lineItems: typeof lineItems; subtotal: number; tax: number; total: number;
+  lineItems: LineItem[]; subtotal: number; tax: number; total: number;
 }) {
   return (
     <Card className="max-w-5xl mx-auto">
@@ -102,7 +103,7 @@ function DocCard({ kind, docId, status, lineItems, subtotal, tax, total }: {
             <TableHead className="text-right">Total</TableHead>
           </TableRow></TableHeader>
           <TableBody>
-            {lineItems.map((i, idx) => (
+            {lineItems.map((i: LineItem, idx: number) => (
               <TableRow key={idx}>
                 <TableCell className="font-medium">{i.desc}</TableCell>
                 <TableCell className="text-right">{i.qty}</TableCell>
